@@ -1,0 +1,33 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-pre-ineligible-no-hba1c"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-pre-no-hba1c",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-pre-ineligible-no-hba1c" },
+        "period": { "start": "2026-07-08T12:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-pre-age-no-hba1c",
+        "status": "final",
+        "code": { "coding": [ { "code": "is_between_30_and_75_years_old" } ] },
+        "subject": { "reference": "Patient/patient-pre-ineligible-no-hba1c" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": true
+      }
+    }
+  ]
+}

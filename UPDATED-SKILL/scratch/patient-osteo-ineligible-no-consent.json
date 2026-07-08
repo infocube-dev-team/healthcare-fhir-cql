@@ -1,0 +1,44 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-osteo-ineligible-no-consent"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-no-consent",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-no-consent" },
+        "period": { "start": "2026-07-08T12:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-age-no-consent",
+        "status": "final",
+        "code": { "coding": [ { "code": "is_at_least_50_years_old" } ] },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-no-consent" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": true
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-consent-no-consent",
+        "status": "final",
+        "code": { "coding": [ { "code": "can_provide_informed_consent" } ] },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-no-consent" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": false
+      }
+    }
+  ]
+}

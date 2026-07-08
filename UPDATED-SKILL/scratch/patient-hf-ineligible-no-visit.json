@@ -1,0 +1,44 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-hf-ineligible-no-visit"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-hf-no-visit",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-hf-ineligible-no-visit" },
+        "period": { "start": "2026-07-08T12:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hf-age-no-visit",
+        "status": "final",
+        "code": { "coding": [ { "code": "is_at_least_18_years_old" } ] },
+        "subject": { "reference": "Patient/patient-hf-ineligible-no-visit" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": true
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-hf-visit-no-visit",
+        "status": "final",
+        "code": { "coding": [ { "code": "had_cardiology_visit_last_year" } ] },
+        "subject": { "reference": "Patient/patient-hf-ineligible-no-visit" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": false
+      }
+    }
+  ]
+}

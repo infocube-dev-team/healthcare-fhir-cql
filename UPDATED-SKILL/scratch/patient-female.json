@@ -1,0 +1,41 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-female"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-female",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-female" },
+        "period": { "start": "2025-12-30T20:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-gender-female",
+        "status": "final",
+        "code": { "coding": [ { "code": "gender_question" } ] },
+        "subject": { "reference": "Patient/patient-female" },
+        "issued": "2025-12-30T20:00:00Z",
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "system": "http://example.org/gender",
+              "code": "female",
+              "display": "Female"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

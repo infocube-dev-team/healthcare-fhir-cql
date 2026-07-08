@@ -1,0 +1,33 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-frequency-numeric-eligible"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-freq-num-eligible",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-frequency-numeric-eligible" },
+        "period": { "start": "2025-12-30T20:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-freq-num-eligible",
+        "status": "final",
+        "code": { "coding": [ { "code": "smartphone_usage_frequency" } ] },
+        "subject": { "reference": "Patient/patient-frequency-numeric-eligible" },
+        "issued": "2025-12-30T20:00:00Z",
+        "valueInteger": 8
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-osteo-ineligible-young"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-young",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-young" },
+        "period": { "start": "2026-07-08T12:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-age-young",
+        "status": "final",
+        "code": { "coding": [ { "code": "is_at_least_50_years_old" } ] },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-young" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": false
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-consent-young",
+        "status": "final",
+        "code": { "coding": [ { "code": "can_provide_informed_consent" } ] },
+        "subject": { "reference": "Patient/patient-osteo-ineligible-young" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": true
+      }
+    }
+  ]
+}
