@@ -1,6 +1,6 @@
 ---
-name: cql-helper-v1
-description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop and cross-checked against the Alphora reference engine, optionally packaged as a FHIR Library resource. User-invoked only — say "use cql-helper-v1" or type /cql-helper-v1.
+name: cql-helper
+description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop and cross-checked against the Alphora reference engine, optionally packaged as a FHIR Library resource. User-invoked only — say "use cql-helper" or type /cql-helper.
 disable-model-invocation: true
 ---
 

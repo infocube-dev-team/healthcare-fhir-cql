@@ -1,6 +1,6 @@
 ---
-name: cql-helper-irccs-v1
-description: Generates or debugs CQL (Clinical Quality Language / FHIR R4) using IRCCS conventions — Observation-based data modeling, string-based code matching, minimal headers. Validated and executed against the Alphora reference engine ($cql sandbox). User-invoked only — say "use cql-helper-irccs-v1" or type /cql-helper-irccs-v1.
+name: cql-helper-irccs
+description: Generates or debugs CQL (Clinical Quality Language / FHIR R4) using IRCCS conventions — Observation-based data modeling, string-based code matching, minimal headers. Validated and executed against the Alphora reference engine ($cql sandbox). User-invoked only — say "use cql-helper-irccs" or type /cql-helper-irccs.
 disable-model-invocation: true
 ---
 
