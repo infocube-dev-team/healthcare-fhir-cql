@@ -1,0 +1,44 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "patient-sr-ineligible-unable-followup"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "enc-sr-2",
+        "status": "finished",
+        "class": { "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB" },
+        "subject": { "reference": "Patient/patient-sr-ineligible-unable-followup" },
+        "period": { "start": "2026-07-08T12:00:00Z" }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-sr-2-surgery",
+        "status": "final",
+        "code": { "coding": [ { "code": "undergone_elective_surgery_within_30_days" } ] },
+        "subject": { "reference": "Patient/patient-sr-ineligible-unable-followup" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": true
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-sr-2-followup",
+        "status": "final",
+        "code": { "coding": [ { "code": "able_to_participate_in_follow_up" } ] },
+        "subject": { "reference": "Patient/patient-sr-ineligible-unable-followup" },
+        "issued": "2026-07-08T12:05:00Z",
+        "valueBoolean": false
+      }
+    }
+  ]
+}
