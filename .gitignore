@@ -1,0 +1,7 @@
+# Agent metadata and custom skills
+.agents/
+.claude/
+.agent
+_agent
+_agents
+*.cql
