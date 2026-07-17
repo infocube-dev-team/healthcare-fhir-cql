@@ -1,1 +1,3 @@
 # Agent metadata and custom skills
+.agents/
+.claude/
