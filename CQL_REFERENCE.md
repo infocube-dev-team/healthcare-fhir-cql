@@ -106,13 +106,12 @@ Common building blocks:
 **Encounter.class** (`http://terminology.hl7.org/CodeSystem/v3-ActCode`)
 `AMB` (ambulatory) | `EMER` (emergency) | `IMP` (inpatient) | `ACUTE` | `NONAC` | `OBSENC` | `SS` (short stay) | `VR` (virtual)
 
-## Validation and execution — the Alphora `$cql` loop
+## Validation and execution — the `$cql` loop
 
-Raw CQL cannot be executed by FHIR evaluation engines — engines run the compiled
-Expression Logical Model (ELM). The Alphora sandbox translates and executes in one
-call: its response carries either translation errors or per-define results, making it
-both the compiler feedback loop and the execution engine. It is the sole validation
-channel in this workflow; if it is unreachable, report the blocker to the user.
+Any conformant FHIR R4 engine that exposes a `$cql` system-level operation can validate
+and execute CQL — the skill will ask which endpoint to use. The endpoint translates CQL
+to ELM and executes in one call: its response carries either translation errors or
+per-define results, making it both the compiler feedback loop and the execution engine.
 
 Run the loop until clean: POST → read each error's message, line, and type → fix the
 named define → bump the version → re-POST. A library is **compile-clean** only at zero
@@ -121,7 +120,11 @@ generation — surface as `Could not resolve call to operator <name> with signat
 check the CQL spec for the real name rather than guessing a variant. Once clean, compare
 each define's returned value against the stated clinical intent for every test fixture.
 
-POST to `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql` (system-level operation).
+POST to the chosen `$cql` endpoint (system-level operation). The skill offers three options:
+
+- **Localhost:** `http://localhost:8080/fhir/$cql` (local Docker container or dev server)
+- **Alphora:** `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql` (public reference sandbox)
+- **Custom:** any URL the user provides (enterprise CQL server, another implementation)
 
 > **Shell pitfall:** `$cql` is interpolated as an empty variable by bash and PowerShell
 > when double-quoted. Always use **single quotes** around the URL. Single quotes do NOT
@@ -161,10 +164,12 @@ const body = {
 };
 fs.writeFileSync('cql-request.json', JSON.stringify(body));
 "
-curl -s -X POST 'https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql' \
+curl -s -X POST "$CQL_ENDPOINT" \
   -H 'Content-Type: application/fhir+json' \
   -d @cql-request.json
 ```
+
+> Set `CQL_ENDPOINT` to one of the options above before running the curl command.
 
 The response is a `Parameters` resource. Each `parameter` entry is one define: `name` =
 define name, `valueBoolean` / `valueString` / `resource` = result. A 200 with every

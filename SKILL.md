@@ -1,12 +1,12 @@
 ---
 name: cql-helper
-description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop and cross-checked against the Alphora reference engine, optionally packaged as a FHIR Library resource. User-invoked only — say "use cql-helper" or type /cql-helper.
+description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop against a configurable $cql endpoint, optionally packaged as a FHIR Library resource. User-invoked only — say "use cql-helper" or type /cql-helper.
 disable-model-invocation: true
 ---
 
 Use **scaffold** for new queries, **trace** for broken ones, **package** to wrap a finished query into a deployable FHIR Library. Syntax patterns, type mappings, terminology bindings, and the Library resource shape live in [CQL_REFERENCE.md](CQL_REFERENCE.md).
 
-This skill writes standard, spec-correct CQL for any conformant FHIR R4 engine. Validation and execution have a single channel: the Alphora `$cql` sandbox, called over HTTPS with Node's native `fetch`. Its response carries both translation errors and per-define results, so one call serves as compiler and execution engine. If the sandbox is unreachable, stop and tell the user — there is no fallback.
+This skill writes standard, spec-correct CQL for any conformant FHIR R4 engine. Before validating, ask the user where to run the CQL — choose from localhost (`http://localhost:8080/fhir/$cql`), the Alphora sandbox (`https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql`), or a custom endpoint the user provides. The `$cql` endpoint is called over HTTPS with Node's native `fetch`. Its response carries both translation errors and per-define results, so one call serves as compiler and execution engine. If the chosen endpoint is unreachable, stop and tell the user — there is no fallback.
 
 ## Scaffold — generating a CQL query
 
@@ -30,8 +30,8 @@ _Done when_: all Step 1 concepts are covered and each define's return type match
 Write fixture Bundles (type `collection`) in the scratchpad — at minimum one patient that should satisfy the intent and, when the output define is Boolean, one control patient that should fail it, so the run proves the logic discriminates rather than returning `true` for everyone. Resources, codes, and units in the fixtures must match the Step 2 mappings exactly; give datetime fields full precision (e.g., `2025-12-30T20:00:00Z`), since date-only values can compare as null against DateTime intervals.
 _Done when_: each fixture has an expected value for every define, stated before running.
 
-**Step 6: Validate and execute against the Alphora reference engine.**
-POST the raw CQL and each test bundle to the Alphora `$cql` sandbox (request shape, Node-fetch transport, and the shell/caching pitfalls are in [CQL_REFERENCE.md](CQL_REFERENCE.md)). Translation errors come back in the response: treat each as a corrective prompt — read the message, fix the define, **bump the library version string**, and re-POST until clean. Watch specifically for hallucinated function names — they surface as `Could not resolve call to operator <name> with signature (...)`; see the common-errors table. Once clean, compare every define's returned value against the expected values from Step 5 for both fixtures.
+**Step 6: Validate and execute against the chosen `$cql` endpoint.**
+First, ask the user: "Where should I validate this CQL?" Offer three options — localhost (`http://localhost:8080/fhir/$cql`), Alphora (`https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql`), or a custom URL the user provides. Once the endpoint is chosen, POST the raw CQL and each test bundle to it (request shape, Node-fetch transport, and the shell/caching pitfalls are in [CQL_REFERENCE.md](CQL_REFERENCE.md)). Translation errors come back in the response: treat each as a corrective prompt — read the message, fix the define, **bump the library version string**, and re-POST until clean. Watch specifically for hallucinated function names — they surface as `Could not resolve call to operator <name> with signature (...)`; see the common-errors table. Once clean, compare every define's returned value against the expected values from Step 5 for both fixtures.
 _Done when_: the response reports zero errors and every define's value matches its expected value for every fixture.
 
 **Step 7: Present and explain.**
@@ -55,9 +55,9 @@ Ask for the error output or unexpected result if not provided.
 _Done when_: the error class is known.
 
 **Step 2: Trace to the failing define.**
-For syntax/semantic: locate the specific define and line from the error entry in the Alphora response. For logic: identify which define returns the wrong value and what it actually returns — run intermediate defines through the sandbox if needed.
+For syntax/semantic: locate the specific define and line from the error entry in the `$cql` response. For logic: identify which define returns the wrong value and what it actually returns — run intermediate defines through the endpoint if needed.
 _Done when_: the broken define is named.
 
 **Step 3: Fix and re-validate.**
-Correct the define, then re-run the Alphora `$cql` call (Scaffold Step 6) on the revised library with the test bundle — **bumping the library version string on every re-POST**, or the sandbox silently serves the cached previous copy. Iterate until the response is error-free and the results match intent. State in one sentence what was wrong and why the fix is correct. If the fix changes semantics (not just syntax), confirm with the user before presenting the revised query. Consult the common-errors table in [CQL_REFERENCE.md](CQL_REFERENCE.md) if the pattern is familiar.
+Correct the define, then re-run the `$cql` call against the chosen endpoint (Scaffold Step 6) on the revised library with the test bundle — **bumping the library version string on every re-POST**, or the server silently serves the cached previous copy. Iterate until the response is error-free and the results match intent. State in one sentence what was wrong and why the fix is correct. If the fix changes semantics (not just syntax), confirm with the user before presenting the revised query. Consult the common-errors table in [CQL_REFERENCE.md](CQL_REFERENCE.md) if the pattern is familiar.
 _Done when_: the response reports zero errors and the executed result matches the stated clinical intent.
