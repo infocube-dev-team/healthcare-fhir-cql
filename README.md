@@ -38,4 +38,4 @@ Contains standard FHIR R4 to CQL type mappings, terminology bindings, standard r
 * **CQL-to-FHIR Type Mappings**: Resolves common semantic compilation mismatches by explicitly mapping CQL system types (e.g., `System.DateTime`) to FHIR primitive types (e.g., `FHIR.Period`).
 * **Terminology Bindings**: Establishes standard coding URIs for major medical vocabularies including SNOMED CT, LOINC, RxNorm, and ICD-10.
 * **Retrieval Boilerplate**: Provides verified code snippets for common clinical decision support patterns, such as fetching the most recent observation, verifying condition verification statuses, and handling period overlaps.
-* **Sandbox API Interface**: Documents the exact FHIR `Parameters` schema required to interact with the Alphora compile-and-execute sandbox endpoint.
+* **Sandbox API Interface**: Documents the FHIR `Parameters` schema required to interact with configurable `$cql` compile-and-execute endpoints (localhost, Alphora, or custom).
