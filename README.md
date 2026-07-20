@@ -9,7 +9,7 @@ This repository provides a custom native skill (`cql-helper`) for agentic AI cod
 You can install this skill directly into your local AI environment using the `skills` CLI. Run the following command in your project's terminal:
 
 ```bash
-npx skills add infocube-it/healthcare-fhir-cql
+npx skills add infocube-dev-team/healthcare-fhir-cql
 ```
 
 ## 💡 How to Use
