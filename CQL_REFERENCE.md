@@ -120,11 +120,11 @@ generation — surface as `Could not resolve call to operator <name> with signat
 check the CQL spec for the real name rather than guessing a variant. Once clean, compare
 each define's returned value against the stated clinical intent for every test fixture.
 
-POST to the chosen `$cql` endpoint (system-level operation). The skill offers three options:
+POST to the `$cql` endpoint (system-level operation). The endpoint is configured via the `CQL_SANDBOX_URL` environment variable:
 
-- **Localhost:** `http://localhost:8080/fhir/$cql` (local Docker container or dev server)
-- **Alphora:** `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql` (public reference sandbox)
-- **Custom:** any URL the user provides (enterprise CQL server, another implementation)
+- **Localhost:** `<YOUR_CQL_SANDBOX_URL>` (e.g., local Docker container or dev server)
+- **Alphora:** `<YOUR_CQL_SANDBOX_URL>` (e.g., public reference sandbox)
+- **Custom:** `<YOUR_CQL_SANDBOX_URL>` (e.g., enterprise CQL server, another implementation)
 
 > **Shell pitfall:** `$cql` is interpolated as an empty variable by bash and PowerShell
 > when double-quoted. Always use **single quotes** around the URL. Single quotes do NOT
@@ -169,7 +169,7 @@ curl -s -X POST "$CQL_ENDPOINT" \
   -d @cql-request.json
 ```
 
-> Set `CQL_ENDPOINT` to one of the options above before running the curl command.
+> Set `CQL_ENDPOINT` to your sandbox URL before running the curl command (e.g., `export CQL_ENDPOINT="$CQL_SANDBOX_URL"`).
 
 The response is a `Parameters` resource. Each `parameter` entry is one define: `name` =
 define name, `valueBoolean` / `valueString` / `resource` = result. A 200 with every

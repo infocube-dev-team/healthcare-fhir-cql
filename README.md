@@ -14,6 +14,22 @@ You can install this skill directly into your local AI environment using the `sk
 npx skills add infocube-dev-team/healthcare-fhir-cql
 ```
 
+## ⚙️ Configuration
+
+To use the validation step automatically, create a `.env` file in your workspace and define the `CQL_SANDBOX_URL` variable pointing to your target `$cql` endpoint:
+
+```bash
+# .env
+CQL_SANDBOX_URL=<your-endpoint-url>
+```
+
+**Example endpoints:**
+
+- **Local environment:** `http://localhost:8080/fhir/$cql`
+- **Alphora Sandbox:** `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql`
+
+The skill will read this variable at validation time. If it is not set, the agent will stop and ask you to provide the endpoint URL.
+
 ## 💡 How to Use
 
 Once installed, you can invoke the skill in your AI agent's chat or prompt by simply saying:
