@@ -1,11 +1,11 @@
 {
   "version": 1,
   "skills": {
-    "cql-helper": {
+    "healthcare-fhir-cql": {
       "source": "infocube-dev-team/healthcare-fhir-cql",
       "sourceType": "github",
       "skillPath": "skills/healthcare-fhir-cql/SKILL.md",
-      "computedHash": "7100d42679ccef13455640fd6d0e9fed72c0ba3482323e22b09b4c141d0d6f6e"
+      "computedHash": "a7d4f59881cbf2e957d89e4272204347bce6bd43bd82db10b591e572f90378da"
     }
   }
 }

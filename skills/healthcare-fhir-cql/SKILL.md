@@ -1,7 +1,9 @@
 ---
-name: cql-helper
-description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop against a configurable $cql endpoint, optionally packaged as a FHIR Library resource. User-invoked only — say "use cql-helper" or type /cql-helper.
-disable-model-invocation: true
+name: healthcare-fhir-cql
+description: Generates or debugs spec-correct CQL (Clinical Quality Language / FHIR R4) per the HL7 Clinical Reasoning architecture — FHIRHelpers-based, validated through a compile-to-ELM loop against a configurable $cql endpoint, optionally packaged as a FHIR Library resource. User-invoked only — say "use healthcare-fhir-cql" or type /healthcare-fhir-cql.
+disable-model-invocation: false
+metadata:
+  tags: ["healthcare", "fhir", "fhir-r4", "cql", "clinical-reasoning", "clinical-quality-language", "hl7", "fhirhelpers", "elm", "library", "fhir-library", "cql-library", "cql-elm", "infocube"]
 ---
 
 Use **scaffold** for new queries, **trace** for broken ones, **package** to wrap a finished query into a deployable FHIR Library. Syntax patterns, type mappings, terminology bindings, and the Library resource shape live in [CQL_REFERENCE.md](CQL_REFERENCE.md).
