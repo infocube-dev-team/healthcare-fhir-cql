@@ -149,27 +149,30 @@ Request body — a FHIR `Parameters` resource with three parameters:
 }
 ```
 
-To build and POST:
+To build and POST, embed the CQL content directly in the request body and send it in a single `curl` call — no local file reads or writes needed:
 
 ```bash
-node -e "
-const fs = require('fs');
-const body = {
-  resourceType: 'Parameters',
-  parameter: [
-    { name: 'subject',  valueString: 'Patient/<id>' },
-    { name: 'content',  valueString: fs.readFileSync('<file>.cql','utf8') },
-    { name: 'data',     resource: JSON.parse(fs.readFileSync('<patient>.json','utf8')) }
-  ]
-};
-fs.writeFileSync('cql-request.json', JSON.stringify(body));
-"
-curl -s -X POST "$CQL_ENDPOINT" \
+# 1. Store the CQL text in a shell variable (paste or heredoc)
+CQL_CONTENT='library MyTrialLogic version '"'"'1.0.0'"'"'
+using FHIR version '"'"'4.0.1'"'"'
+// ... rest of your CQL ...'
+
+# 2. POST directly to the endpoint configured in your environment
+curl -s -X POST "${CQL_SANDBOX_URL}/$cql" \
   -H 'Content-Type: application/fhir+json' \
-  -d @cql-request.json
+  --data-raw '{
+    "resourceType": "Parameters",
+    "parameter": [
+      { "name": "subject",  "valueString": "Patient/<id>" },
+      { "name": "content",  "valueString": "'"${CQL_CONTENT}"'" },
+      { "name": "data",     "resource": { "resourceType": "Bundle", "type": "collection", "entry": [] } }
+    ]
+  }'
 ```
 
-> Set `CQL_ENDPOINT` to your sandbox URL before running the curl command (e.g., `export CQL_ENDPOINT="$CQL_SANDBOX_URL"`).
+> `CQL_SANDBOX_URL` is read at runtime from the environment (configured in `.env`). Never hard-code the URL in skill content or committed files.
+
+> **Multiline CQL tip:** for longer libraries, write the CQL to a variable with a heredoc (`CQL_CONTENT=$(cat <<'EOF' … EOF)`) or use `jq` to build the JSON safely: `jq -n --arg cql "$CQL_CONTENT" --argjson data "$(cat patient.json)" '{"resourceType":"Parameters","parameter":[{"name":"subject","valueString":"Patient/<id>"},{"name":"content","valueString":$cql},{"name":"data","resource":$data}]}'` piped directly to `curl --data-raw @-`.
 
 The response is a `Parameters` resource. Each `parameter` entry is one define: `name` =
 define name, `valueBoolean` / `valueString` / `resource` = result. A 200 with every
