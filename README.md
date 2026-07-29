@@ -14,11 +14,12 @@ npx skills add infocube-dev-team/healthcare-fhir-cql
 
 ## Configuration
 
-To use the validation step automatically, create a `.env` file in your workspace and set `CQL_SANDBOX_URL` to your target `$cql` endpoint:
+To use the validation step, set `cqlSandboxUrl` in [`skills/healthcare-fhir-cql/resources/config.json`](skills/healthcare-fhir-cql/resources/config.json) to your target `$cql` endpoint:
 
-```bash
-# .env
-CQL_SANDBOX_URL=<your-endpoint-url>
+```json
+{
+  "cqlSandboxUrl": "<your-endpoint-url>"
+}
 ```
 
 Example endpoints:
@@ -26,7 +27,7 @@ Example endpoints:
 - Local environment: `http://localhost:8080/fhir/$cql`
 - Alphora Sandbox: `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql`
 
-The skill reads this variable at validation time. If it is not set, the agent stops and asks you to provide the endpoint URL.
+The skill reads this field at validation time. If it is not set, the agent stops and asks you to provide the endpoint URL.
 
 ## Usage
 
@@ -49,7 +50,7 @@ Behavioral directives, constraints, and validation workflows used by agentic AI 
 - **Sandbox verification** — enforces compile-clean checks and execution testing against local patient bundle test fixtures via the sandbox API.
 - **Logic packaging** — bundles the final CQL code and ELM translation output into a conformant FHIR `Library` resource for distribution.
 
-### [CQL_REFERENCE.md](skills/healthcare-fhir-cql/CQL_REFERENCE.md)
+### [CQL_REFERENCE.md](skills/healthcare-fhir-cql/references/CQL_REFERENCE.md)
 
 Standard FHIR R4 to CQL type mappings, terminology bindings, retrieval patterns, and compiler sandbox request schemas.
 
@@ -57,3 +58,7 @@ Standard FHIR R4 to CQL type mappings, terminology bindings, retrieval patterns,
 - **Terminology bindings** — standard coding URIs for SNOMED CT, LOINC, RxNorm, and ICD-10.
 - **Retrieval boilerplate** — verified code snippets for common clinical decision support patterns, such as fetching the most recent observation, verifying condition verification statuses, and handling period overlaps.
 - **Sandbox API interface** — the FHIR `Parameters` schema required to interact with configurable `$cql` compile-and-execute endpoints (localhost, Alphora, or custom).
+
+### [config.json](skills/healthcare-fhir-cql/resources/config.json)
+
+Skill configuration file. Set `cqlSandboxUrl` here to point the validation step at your `$cql` endpoint.
