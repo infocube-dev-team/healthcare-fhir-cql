@@ -18,6 +18,8 @@ codesystem "SNOMEDCT": 'http://snomed.info/sct'
 codesystem "LOINC": 'http://loinc.org'
 codesystem "condition-clinical": 'http://terminology.hl7.org/CodeSystem/condition-clinical'
 
+// If the ValueSet is not on the target server, use a direct code filter instead.
+// See "ValueSet resolution vs direct code filter" below.
 valueset "Diabetes Codes": 'http://example.org/fhir/ValueSet/diabetes-codes'
 valueset "HbA1c Tests": 'http://example.org/fhir/ValueSet/hba1c-tests'
 
@@ -47,6 +49,29 @@ codes, not arbitrary strings, are what let downstream systems compare results re
 | LOINC | `http://loinc.org` | Labs, observations, document/consent codes |
 | RxNorm | `http://www.nlm.nih.gov/research/umls/rxnorm` | Medications |
 | ICD-10 | `http://hl7.org/fhir/sid/icd-10` | Diagnoses |
+
+## ValueSet resolution vs direct code filter
+
+ValueSets declared in CQL must be resolvable by the engine's terminology server —
+either pre-loaded on the target FHIR server or reachable via an external terminology
+service. On sandboxes and servers without a pre-populated ValueSet catalog, a ValueSet
+reference fails with `Unable to locate ValueSet <url>`.
+
+**Before writing CQL that uses a ValueSet, check if it exists on the target server:**
+```bash
+curl -s "${CQL_ENDPOINT}/ValueSet?url=<valueSetUrl>" -H 'Accept: application/fhir+json'
+```
+
+Fallback — direct code filter: when the ValueSet is not available, retrieve by
+code directly. This is spec-correct CQL and matches the exact code plus all its
+descendants in the hierarchy (for SNOMED CT), equivalent to a ValueSet expansion:
+
+```cql
+[<Resource>: Code '<code>' from "<codesystem>"]
+```
+
+Prefer ValueSets in production (they are versioned, curated, and auditable); use
+direct code filters on sandboxes and servers that lack terminology services.
 
 ## Retrieval patterns
 
@@ -83,6 +108,7 @@ Common building blocks:
 | Age gate | `AgeInYearsAt(start of "Measurement Period") >= 18` |
 | Period overlap | `E.period overlaps "Measurement Period"` (Period converts to `Interval<DateTime>` via FHIRHelpers) |
 | Measurement window | `parameter "Measurement Period" Interval<DateTime>` |
+| Direct code retrieve | `[<Resource>: Code '<code>' from "<codesystem>"]` |
 
 > **Sort-key pitfall:** do not `sort by effective` (or any raw FHIR element). Some engines —
 > including the Alphora reference engine — compare the FHIR type directly and fail with

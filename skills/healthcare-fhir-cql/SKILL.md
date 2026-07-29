@@ -17,7 +17,7 @@ Ask until you know: the target patient population, the clinical data to retrieve
 _Done when_: you can state the intent in one sentence the user confirms, and CQL is confirmed as the right representation.
 
 **Step 2: Map to FHIR R4 resources and terminology.**
-List every FHIR R4 resource the query will touch. Bind every clinical concept to a standard terminology — SNOMED CT for conditions/findings, LOINC for labs and observations, RxNorm for medications, ICD-10 for diagnoses — via `codesystem` and `valueset` declarations, never arbitrary strings. Flag missing codes or value set URLs as blockers before writing.
+List every FHIR R4 resource the query will touch. Bind every clinical concept to a standard terminology — SNOMED CT for conditions/findings, LOINC for labs and observations, RxNorm for medications, ICD-10 for diagnoses — via `codesystem` and `valueset` declarations, never arbitrary strings. Flag missing codes or value set URLs as blockers before writing. If the target server has no pre-loaded ValueSets for the needed concepts, use a direct code filter (`Code '<code>' from "<codesystem>"`) as a spec-correct fallback; see "ValueSet resolution vs direct code filter" in [CQL_REFERENCE.md](references/CQL_REFERENCE.md) for how to check availability before writing.
 _Done when_: every clinical concept in the intent maps to a named resource and a terminology-bound value set or code.
 
 **Step 3: Scaffold the library.**
