@@ -14,20 +14,20 @@ npx skills add infocube-dev-team/healthcare-fhir-cql
 
 ## Configuration
 
-To use the validation step, set `cqlSandboxUrl` in [`skills/healthcare-fhir-cql/resources/config.json`](skills/healthcare-fhir-cql/resources/config.json) to your target `$cql` endpoint:
+To use the validation steps, set `fhirBaseUrl` in [`skills/healthcare-fhir-cql/resources/config.json`](skills/healthcare-fhir-cql/resources/config.json) to your FHIR server base URL:
 
 ```json
 {
-  "cqlSandboxUrl": "<your-endpoint-url>"
+  "fhirBaseUrl": "<your-fhir-server-base-url>"
 }
 ```
 
 Example endpoints:
 
-- Local environment: `http://localhost:8080/fhir/$cql`
-- Alphora Sandbox: `https://cloud.alphora.com/sandbox/r4/cds/fhir/$cql`
+- Local environment: `http://localhost:8080/fhir`
+- Alphora Sandbox: `https://cloud.alphora.com/sandbox/r4/cds/fhir`
 
-The skill reads this field at validation time. If it is not set, the agent stops and asks you to provide the endpoint URL.
+The skill reads this field before both `$cql` (CQL compile-and-execute) and `$validate` (FHIR resource validation) calls. Both operations target the same FHIR server. If the field is not set, the agent stops and asks you to provide the URL.
 
 ## Usage
 
@@ -61,4 +61,4 @@ Standard FHIR R4 to CQL type mappings, terminology bindings, retrieval patterns,
 
 ### [config.json](skills/healthcare-fhir-cql/resources/config.json)
 
-Skill configuration file. Set `cqlSandboxUrl` here to point the validation step at your `$cql` endpoint.
+Skill configuration file. Set `fhirBaseUrl` here to point the skill at your FHIR server. The same URL is used for both the `$cql` compile-and-execute operation and the `$validate` resource validation operation.
